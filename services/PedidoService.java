@@ -7,6 +7,7 @@ import models.ItemPedido;
 import repositories.RepositorioPedido;
 import repositories.RepositorioCliente;
 import repositories.RepositorioProduto;
+import processors.FilaProcessamento;
 import enums.StatusPedido;
 import exceptions.PedidoInvalidoException;
 import exceptions.ValidacaoException;
@@ -18,13 +19,16 @@ public class PedidoService {
     private RepositorioPedido repositorioPedido;
     private RepositorioCliente repositorioCliente;
     private RepositorioProduto repositorioProduto;
+    private FilaProcessamento filaProcessamento;
 
     public PedidoService(RepositorioPedido repositorioPedido,
                         RepositorioCliente repositorioCliente,
-                        RepositorioProduto repositorioProduto) {
+                        RepositorioProduto repositorioProduto,
+                        FilaProcessamento filaProcessamento) {
         this.repositorioPedido = repositorioPedido;
         this.repositorioCliente = repositorioCliente;
         this.repositorioProduto = repositorioProduto;
+        this.filaProcessamento = filaProcessamento;
     }
 
     public Pedido criarPedido(int clienteId, Map<Integer, Integer> produtosEQuantidades)
@@ -68,6 +72,16 @@ public class PedidoService {
         int novoId = repositorioPedido.obterProximoId();
         Pedido pedido = new Pedido(novoId, cliente, itens);
         repositorioPedido.salvar(pedido);
+
+        try {
+            filaProcessamento.adicionarPedido(pedido);
+            System.out.println("[PEDIDO SERVICE] Pedido " + pedido.obterIdentificador()
+                + " adicionado na fila de processamento");
+        } catch (InterruptedException e) {
+            System.err.println("[PEDIDO SERVICE] Erro ao adicionar pedido "
+                + pedido.obterIdentificador() + " na fila: " + e.getMessage());
+            Thread.currentThread().interrupt();
+        }
 
         return pedido;
     }
