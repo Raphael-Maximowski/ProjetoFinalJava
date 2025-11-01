@@ -4,6 +4,7 @@ import models.Produto;
 import repositories.RepositorioProduto;
 import enums.CategoriaProduto;
 import exceptions.PrecoInvalidoException;
+import exceptions.NomeInvalidoException;
 import java.util.List;
 
 public class ProdutoService {
@@ -14,7 +15,7 @@ public class ProdutoService {
     }
 
     public Produto cadastrarProduto(String nome, float preco, CategoriaProduto categoria)
-            throws PrecoInvalidoException {
+            throws PrecoInvalidoException, NomeInvalidoException {
         int novoId = repositorioProduto.obterProximoId();
         Produto produto = new Produto(novoId, nome, preco, categoria);
         repositorioProduto.salvar(produto);

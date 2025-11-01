@@ -1,13 +1,15 @@
 package models;
 
 import exceptions.EmailInvalidoException;
+import exceptions.NomeInvalidoException;
 
 public class Cliente {
     private int id;
     private String nome;
     private String email;
-    
-    public Cliente(int id, String nome, String email) throws EmailInvalidoException {
+
+    public Cliente(int id, String nome, String email) throws EmailInvalidoException, NomeInvalidoException {
+        validarNome(nome);
         validarEmail(email);
 
         this.id = id;
@@ -15,6 +17,12 @@ public class Cliente {
         this.email = email;
     }
     
+    private void validarNome(String nome) throws NomeInvalidoException {
+        if (nome == null || nome.trim().isEmpty()) {
+            throw new NomeInvalidoException("Nome não pode ser vazio.");
+        }
+    }
+
     private void validarEmail(String email) throws EmailInvalidoException {
         if (email == null || email.trim().isEmpty()) {
             throw new EmailInvalidoException("E-mail não pode ser vazio.");

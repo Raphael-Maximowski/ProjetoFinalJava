@@ -2,6 +2,7 @@ package models;
 
 import enums.CategoriaProduto;
 import exceptions.PrecoInvalidoException;
+import exceptions.NomeInvalidoException;
 
 public class Produto {
     private int id;
@@ -10,12 +11,19 @@ public class Produto {
     private CategoriaProduto categoria;
 
     public Produto(int id, String nome, float preco, CategoriaProduto categoria)
-            throws PrecoInvalidoException {
+            throws PrecoInvalidoException, NomeInvalidoException {
         this.id = id;
         this.nome = nome;
         this.preco = preco;
         this.categoria = categoria;
+        validarNome();
         validarPreco();
+    }
+
+    private void validarNome() throws NomeInvalidoException {
+        if (nome == null || nome.trim().isEmpty()) {
+            throw new NomeInvalidoException("Nome do produto não pode ser vazio.");
+        }
     }
 
     private void validarPreco() throws PrecoInvalidoException {

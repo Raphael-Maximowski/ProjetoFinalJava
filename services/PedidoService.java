@@ -75,11 +75,7 @@ public class PedidoService {
 
         try {
             filaProcessamento.adicionarPedido(pedido);
-            System.out.println("[PEDIDO SERVICE] Pedido " + pedido.obterIdentificador()
-                + " adicionado na fila de processamento");
         } catch (InterruptedException e) {
-            System.err.println("[PEDIDO SERVICE] Erro ao adicionar pedido "
-                + pedido.obterIdentificador() + " na fila: " + e.getMessage());
             Thread.currentThread().interrupt();
         }
 

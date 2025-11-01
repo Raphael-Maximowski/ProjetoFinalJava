@@ -3,6 +3,7 @@ package services;
 import models.Cliente;
 import repositories.RepositorioCliente;
 import exceptions.EmailInvalidoException;
+import exceptions.NomeInvalidoException;
 import java.util.List;
 
 public class ClienteService {
@@ -12,7 +13,7 @@ public class ClienteService {
         this.repositorioCliente = repositorioCliente;
     }
 
-    public Cliente cadastrarCliente(String nome, String email) throws EmailInvalidoException {
+    public Cliente cadastrarCliente(String nome, String email) throws EmailInvalidoException, NomeInvalidoException {
         int novoId = repositorioCliente.obterProximoId();
         Cliente cliente = new Cliente(novoId, nome, email);
         repositorioCliente.salvar(cliente);
