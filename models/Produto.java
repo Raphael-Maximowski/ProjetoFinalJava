@@ -19,9 +19,6 @@ public class Produto {
     }
 
     private void validarPreco() throws PrecoInvalidoException {
-        if (preco == null) {
-            throw new PrecoInvalidoException("O preco nao pode ser nulo");
-        }
         if (preco <= 0) {
             throw new PrecoInvalidoException(
                 "O preco deve ser maior que zero. Valor informado: " + preco
