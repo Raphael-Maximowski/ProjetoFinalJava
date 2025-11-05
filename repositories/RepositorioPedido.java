@@ -22,7 +22,12 @@ public class RepositorioPedido implements Repositorio<Pedido> {
     @Override
     public void salvar(Pedido entidade) {
         if (entidade != null) {
+            if(this.existe(entidade.obterIdentificador())) {
+                throw new IllegalStateException("Não é possível adicionar: pedido com o ID " + entidade.obterIdentificador() + " já existe.");
+            }
+
             pedidos.put(entidade.obterIdentificador(), entidade);
+
             if (entidade.obterIdentificador() >= proximoId) {
                 proximoId = entidade.obterIdentificador() + 1;
             }

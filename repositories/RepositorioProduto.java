@@ -20,6 +20,9 @@ public class RepositorioProduto implements Repositorio<Produto> {
     @Override
     public void salvar(Produto entidade) {
         if (entidade != null) {
+            if(this.existe(entidade.obterIdentificador())) {
+                throw new IllegalStateException("Não é possível adicionar: produto com o ID " + entidade.obterIdentificador() + " já existe.");
+            }
             produtos.put(entidade.obterIdentificador(), entidade);
             if (entidade.obterIdentificador() >= proximoId) {
                 proximoId = entidade.obterIdentificador() + 1;

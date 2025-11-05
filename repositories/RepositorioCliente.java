@@ -18,7 +18,12 @@ public class RepositorioCliente implements Repositorio<Cliente> {
     @Override
     public void salvar(Cliente entidade) {
         if (entidade != null) {
+            if(this.existe(entidade.obterId())) {
+                throw new IllegalStateException("Não é possível adicionar: cliente com o ID " + entidade.obterId() + " já existe.");
+            }
+
             clientes.put(entidade.obterId(), entidade);
+
             if (entidade.obterId() >= proximoId) {
                 proximoId = entidade.obterId() + 1;
             }
