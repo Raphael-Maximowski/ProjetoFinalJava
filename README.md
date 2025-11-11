@@ -170,6 +170,16 @@ O projeto utiliza exceções customizadas para tratamento de erros:
 - **Processamento**: Thread para operações assíncronas
 - **Armazenamento**: In-Memory (HashMap, ArrayList)
 
+## 🧩 Onde os conceitos foram aplicados (resumido)
+
+- POO: entidades em `models/` (ex.: `Cliente`, `Produto`, `Pedido`) com encapsulamento via getters; lógica em `services/`.
+- Interfaces & polimorfismo: `repositories/Repositorio.java` e `processors/ProcessadorPedidos.java` permitem trocar implementações sem alterar consumidores.
+- SOLID (resumo): classes com responsabilidade única (SRP), uso de interfaces e injeção por construtor (DIP/OCP), interfaces enxutas (ISP).
+- Object Calisthenics: práticas simples aplicadas — métodos curtos e classes focadas.
+- Concorrência: `processors/FilaProcessamento` usa `LinkedBlockingQueue`; `ProcessadorPedidosAssincrono` roda em thread separada; `executando` é `volatile`; parada feita com `interrupt()` + `join()`.
+
+Se quiser, adiciono trechos de código curtos para ilustrar algum item específico.
+
 ## 📝 Notas Importantes
 
 - Os dados são armazenados **em memória** e serão perdidos ao encerrar a aplicação
@@ -191,3 +201,28 @@ Este projeto foi desenvolvido como trabalho final de faculdade para demonstrar c
 
 - **Nome do Repositório**: ProjetoFinalJava
 - **Integrantes**: Alan Pereria e Raphael-Maximowski
+
+## 👥 Divisão de Tarefas (parte 1 — Alan)
+
+Abaixo estão as responsabilidades atribuídas ao Alan. Coloquei somente esta primeira parte conforme solicitado.
+
+- Alan:
+   - `MenuPrincipal.java` (UI / interação com usuário)
+   - `models/Cliente.java`
+   - `models/Pedido.java`
+   - `models/ItemPedido.java`
+   - `services/ClienteService.java`
+   - `services/PedidoService.java`
+   - Criação do Readme `README.md`
+
+## 👥 Divisão de Tarefas (parte 2 — Raphael)
+
+Responsabilidades atribuídas ao Raphael:
+
+- Raphael:
+   - `Main.java` (ponto de entrada)
+   - `models/Produto.java`
+   - `services/ProdutoService.java`
+   - `repositories/` (implementação dos repositórios: `RepositorioCliente`, `RepositorioProduto`, `RepositorioPedido`, `Repositorio.java`)
+   - `processors/` (incluindo `FilaProcessamento.java` e `ProcessadorPedidosAssincrono.java`)
+   - `enums/` e `exceptions/`
